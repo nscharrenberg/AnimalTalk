@@ -2,26 +2,32 @@
 
 namespace App\Models;
 
+use App\Helpers\Translator;
+
 class Labrador implements ILanguage
 {
+    private static string $sound = "woef";
 
     public static function translate(ILanguage $origin, string $text): string
     {
-        // TODO: Implement translate() method.
+        return Translator::replaceAllWordWithX($text, Labrador::$sound);
     }
 
     public static function valid(string $text): bool
     {
-        // TODO: Implement valid() method.
+        return Translator::sentenceContainsOnlyWords($text, [Labrador::$sound]);
     }
 
     public static function detected(string $text): bool
     {
-        // TODO: Implement detected() method.
+        return Labrador::valid($text);
     }
 
     public static function translateable(): array
     {
-        // TODO: Implement translateable() method.
+        return [
+            Poodle::class,
+            Parrot::class
+        ];
     }
 }
