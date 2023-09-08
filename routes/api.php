@@ -15,4 +15,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post('translate', [TranslationController::class, 'translate'])->name('translate');
 Route::get('translate/languages', [TranslationController::class, 'getLanguages'])->name('translate.languages');

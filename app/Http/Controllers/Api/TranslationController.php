@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TranslationRequest;
 use App\Services\TranslationService;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class TranslationController extends Controller
 {
@@ -14,7 +16,7 @@ class TranslationController extends Controller
         $this->service = $service;
     }
 
-    public function getLanguages(Request $request) {
+    public function getLanguages(Request $request): Response {
         $from = $request->query('from');
 
         if (isset($from)) {
@@ -24,5 +26,22 @@ class TranslationController extends Controller
         }
 
         return response($languages, 200);
+    }
+
+    public function translate(TranslationRequest $request): Response {
+        $validated = $request->validated();
+        $validated = $request->safe()->only(['text', 'drunk', 'from', 'to']);
+
+        $isDrunk = isset($validated['drunk']) && $validated['drunk'];
+
+        try {
+            return \response([
+                "text" => $this->service->translate($validated['text'], $validated['to'], $validated['from'], $isDrunk)
+            ], 200);
+        } catch (\Exception $exception) {
+            return response([
+                "error" => $exception->getMessage()
+            ], 500);
+        }
     }
 }
