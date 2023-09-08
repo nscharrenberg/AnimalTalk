@@ -8,9 +8,6 @@ use Tests\TestCase;
 
 class DrunkTranslationTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
     public function test_drunk_translations(): void
     {
         $message = "Dit is een test bericht";
