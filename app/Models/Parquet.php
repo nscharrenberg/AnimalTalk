@@ -16,11 +16,10 @@ class Parquet implements ILanguage
      *
      * Rules: Replace any word starting with a vowel with "tjilp" and all other words with "piep"
      *
-     * @param ILanguage $origin - The original Language to be translated.
      * @param string $text - The text to be translated.
      * @return string - The translated text.
      */
-    public static function translate(ILanguage $origin, string $text): string
+    public static function translate(string $text): string
     {
         $words = explode(" ", $text);
         $vowels = "/\b[aeiouAEIOU]\w*\b/";

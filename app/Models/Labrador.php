@@ -13,11 +13,10 @@ class Labrador implements ILanguage
      *
      * Rules: Replace every word in the sentence by "woef".
      *
-     * @param ILanguage $origin - The original Language to be translated.
      * @param string $text - The text to be translated.
      * @return string - The translated text.
      */
-    public static function translate(ILanguage $origin, string $text): string
+    public static function translate(string $text): string
     {
         return Translator::replaceAllWordWithX($text, Labrador::$sound);
     }

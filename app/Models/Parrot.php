@@ -10,11 +10,10 @@ class Parrot implements ILanguage
      *
      * Rules: Start the sentence with "ik praat je na " followed by the given text.
      *
-     * @param ILanguage $origin - The original Language to be translated.
      * @param string $text - The text to be translated.
      * @return string - The translated text.
      */
-    public static function translate(ILanguage $origin, string $text): string
+    public static function translate(string $text): string
     {
         return "Ik praat je na {$text}";
     }

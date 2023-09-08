@@ -11,7 +11,7 @@ class Human implements ILanguage
      *
      * @throws NotTranslateableException - Occurs when attempting to translate to Human language.
      */
-    public static function translate(ILanguage $origin, string $text): string
+    public static function translate(string $text): string
     {
         throw new NotTranslateableException();
     }
@@ -47,7 +47,7 @@ class Human implements ILanguage
             Labrador::class,
             Poodle::class,
             Parquet::class,
-            Parquet::class
+            Parrot::class
         ];
     }
 }

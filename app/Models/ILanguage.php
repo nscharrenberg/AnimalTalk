@@ -7,11 +7,10 @@ interface ILanguage
     /**
      * Translate a given text from the original language to the current language.
      *
-     * @param ILanguage $origin - The original language that needs to be translated.
      * @param string $text - The text that needs to be translated.
      * @return string - The translated text.
      */
-    public static function translate(ILanguage $origin, string $text): string;
+    public static function translate(string $text): string;
 
     /**
      * Inspects whether the given text is valid for the current language.

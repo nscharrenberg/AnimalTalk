@@ -35,8 +35,8 @@ class TranslationService
      *
      * @return array|string[] - The list of languages
      */
-    private function getLanguages(): array {
-        return $this->languages;
+    public function getLanguages(): array {
+        return array_keys($this->languages);
     }
 
     /**
@@ -100,13 +100,13 @@ class TranslationService
         }
 
         if (is_null($fromLanguage)) {
-            throw new \Exception("De geselecteerde originele taal kan niet worden gevonden.");
+            throw new NotTranslateableException();
         }
 
         $toLanguage = $this->findLanguage($to, $this->languages);
 
         if (is_null($toLanguage)) {
-            throw new \Exception("De geselecteerde taal kan niet worden gevonden.");
+            throw new NotTranslateableException();
         }
 
         $valid = $fromLanguage::valid($sentence);
@@ -121,7 +121,7 @@ class TranslationService
             throw new NotTranslateableException();
         }
 
-        $translation = $toLanguage::translate($fromLanguage, $sentence);
+        $translation = $toLanguage::translate($sentence);
 
         if ($drunk) {
             $translation = Drunk::translate($translation);
@@ -158,7 +158,7 @@ class TranslationService
      */
     private function detectLanguage(string $sentence): ?ILanguage {
         foreach ($this->languages as $key => $language) {
-            if ($language::detect($sentence)) {
+            if ($language::detected($sentence)) {
                 return new $language();
             }
         }

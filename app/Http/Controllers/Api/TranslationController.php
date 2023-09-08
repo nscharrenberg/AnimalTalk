@@ -20,12 +20,19 @@ class TranslationController extends Controller
         $from = $request->query('from');
 
         if (isset($from)) {
-            $languages = $this->service->getTranslateableLanguages($from);
+            if ($from === "auto") {
+                $languages = $this->service->getLanguages();
+            } else {
+                $languages = $this->service->getTranslateableLanguages($from);
+            }
         } else {
-            $languages = $this->service->getOriginLanguages();
+            $languages = ["auto"];
+            $languages = array_merge($languages, $this->service->getOriginLanguages());
         }
 
-        return response($languages, 200);
+        return response([
+            "languages" => $languages
+        ], 200);
     }
 
     public function translate(TranslationRequest $request): Response {
@@ -35,9 +42,7 @@ class TranslationController extends Controller
         $isDrunk = isset($validated['drunk']) && $validated['drunk'];
 
         try {
-            return \response([
-                "text" => $this->service->translate($validated['text'], $validated['to'], $validated['from'], $isDrunk)
-            ], 200);
+            return \response($this->service->translate($validated['text'], $validated['to'], $validated['from'], $isDrunk), 200);
         } catch (\Exception $exception) {
             return response([
                 "error" => $exception->getMessage()
