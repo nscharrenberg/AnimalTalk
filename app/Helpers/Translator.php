@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use Illuminate\Support\Str;
+
 class Translator
 {
     /**
@@ -36,5 +38,45 @@ class Translator
         }
 
         return true;
+    }
+
+    /**
+     * Reverse every nth word within a sentence.
+     *
+     * @param string $sentence - The original sentence in which words will be reversed.
+     * @param int $n - The interval at which words will be reversed e.g. every 4th word.
+     * @return string - The modified sentence with every nth word reversed.
+     */
+    public static function reverseEveryXthWord(string $sentence, int $n): string {
+        $words = str_word_count($sentence, 1);
+
+        $wordArray = [];
+
+        foreach ($words as $key => $word) {
+            if (($key + 1) % $n === 0) {
+                $wordArray[] = Str::reverse($word);
+                continue;
+            }
+
+            $wordArray[] = $word;
+        }
+
+        return implode(' ', $wordArray);
+    }
+
+    /**
+     * Adds a word at a specified position within a sentence.
+     *
+     * @param string $sentence - The original sentence to which the word will be added.
+     * @param int $position - The position within the sentence, where the word will be inserted.
+     * @param string $word - The word to be inserted into the sentence.
+     * @return string - The modified sentence with the word inserted at the specified position.
+     */
+    public static function addWordInXthPositionOfSentence(string $sentence, int $position, string $word): string {
+        $textLength = Str::length($sentence);
+        $left = Str::substr($sentence, 0, $position);
+        $right = Str::substr($sentence, $position, $textLength);
+
+        return "{$left}{$word}{$right}";
     }
 }
